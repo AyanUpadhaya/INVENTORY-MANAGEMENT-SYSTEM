@@ -8,6 +8,10 @@ import {
   UserRoundSearch,
   ChevronDown,
   ChevronUp,
+  Tags,
+  Truck,
+  Building2,
+  Users,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useProfileQuery } from "../../features/auth/authApi";
@@ -23,27 +27,8 @@ const SidebarLinks = [
     icon: LayoutDashboard,
     roles: ["viewer", "staff", "manager", "admin"],
   },
-
   {
     id: 2,
-    name: "Inventory",
-    url: "/dashboard/inventory",
-    submenu: [],
-    pathMap: ["/dashboard/inventory"],
-    icon: ChartBar,
-    roles: ["admin", "staff", "manager"],
-  },
-  {
-    id: 3,
-    name: "Users",
-    url: "/dashboard/users",
-    submenu: [],
-    pathMap: ["/dashboard/users"],
-    icon: UserRoundSearch,
-    roles: ["admin"],
-  },
-  {
-    id: 4,
     name: "Products",
     url: "/dashboard/products",
     pathMap: [
@@ -65,33 +50,83 @@ const SidebarLinks = [
     roles: ["viewer", "staff", "manager", "admin"],
   },
   {
-    id: 5,
+    id: 3,
     name: "Orders",
     url: "orders",
-    pathMap: [
-      "/dashboard/orders",
-      "/dashboard/add-order",
-      "/dashboard/update-order",
-    ],
+    pathMap: ["/dashboard/customer-orders", "/dashboard/purchase-orders"],
     submenu: [
       {
-        name: "Add Order",
-        url: "/dashboard/add-order",
+        name: "Customer Orders",
+        url: "/dashboard/customer-orders",
       },
       {
-        name: "Update Order",
-        url: "/dashboard/update-order",
+        name: "Purchase Orders",
+        url: "/dashboard/purchase-orders",
       },
     ],
     icon: Logs,
     roles: ["viewer", "staff", "manager", "admin"],
   },
   {
+    id: 4,
+    name: "Inventory",
+    url: "/dashboard/inventory",
+    submenu: [],
+    pathMap: ["/dashboard/inventory"],
+    icon: ChartBar,
+    roles: ["admin", "staff", "manager"],
+  },
+  {
+    id: 5,
+    name: "Categories",
+    url: "/dashboard/categories",
+    submenu: [],
+    pathMap: ["/dashboard/categories"],
+    icon: Tags,
+    roles: ["admin", "staff", "manager"],
+  },
+  {
     id: 6,
+    name: "Suppliers",
+    url: "/dashboard/suppliers",
+    submenu: [],
+    pathMap: ["/dashboard/suppliers"],
+    icon: Truck,
+    roles: ["admin", "staff", "manager"],
+  },
+  {
+    id: 7,
+    name: "Warehouses",
+    url: "/dashboard/warehouses",
+    submenu: [],
+    pathMap: ["/dashboard/warehouses"],
+    icon: Building2,
+    roles: ["admin", "staff", "manager"],
+  },
+  {
+    id: 8,
+    name: "Customers",
+    url: "/dashboard/customers",
+    submenu: [],
+    pathMap: ["/dashboard/customers"],
+    icon: Users,
+    roles: ["admin", "staff", "manager"],
+  },
+  {
+    id: 9,
+    name: "Users",
+    url: "/dashboard/users",
+    submenu: [],
+    pathMap: ["/dashboard/users"],
+    icon: UserRoundSearch,
+    roles: ["admin"],
+  },
+  {
+    id: 10,
     name: "Settings",
     url: "/dashboard/settings",
     submenu: [],
-    pathMap: ["/settings"],
+    pathMap: ["/dashboard/settings"],
     icon: Settings,
     roles: ["manager", "admin"],
   },
@@ -111,7 +146,6 @@ const Sidebar = ({ showSidebar }) => {
 
   const handleDropdown = (menu) => {
     setIsSubmenuOpen((prev) => ({
-      ...prev,
       [menu]: !prev[menu],
     }));
   };
@@ -120,7 +154,7 @@ const Sidebar = ({ showSidebar }) => {
     <div
       className={`${
         showSidebar ? "w-72 px-4" : "w-0"
-      }  bg-gray-900 h-full  relative duration-300 no-scrollbar overflow-auto `}
+      }  bg-gray-900 h-full pb-5  relative duration-300 no-scrollbar overflow-auto `}
     >
       {/* logo */}
       <div className="h-12 mb-6 py-3">
@@ -133,7 +167,7 @@ const Sidebar = ({ showSidebar }) => {
         </Link>
       </div>
       {/* rest of the sidebar */}
-      <div className="space-y-4">
+      <div className="space-y-3">
         {filteredLinks.map((item) => {
           const active = isPathActive(item.pathMap);
           const Icon = item.icon;
@@ -174,9 +208,13 @@ const Sidebar = ({ showSidebar }) => {
                   <ChevronUp className="w-4 h-4"></ChevronUp>
                 )}
               </div>
+              {/* submenus */}
               <ul
                 className={`flex flex-col gap-1 duration-300 pl-10`}
-                style={{ maxHeight: isSubmenuOpen[item?.name] ? `320px` : "0" }}
+                style={{
+                  maxHeight: isSubmenuOpen[item?.name] ? `320px` : "0",
+                  paddingTop: isSubmenuOpen[item?.name] ? "12px" : "0",
+                }}
               >
                 {item?.submenu.map((submenu, idx) => (
                   <>

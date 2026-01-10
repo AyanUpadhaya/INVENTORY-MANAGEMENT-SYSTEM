@@ -1,11 +1,11 @@
 import PageTitle from "../components/shared/PageTitle";
 
-const Users = () => {
+const CustomerOrders = () => {
   return (
     <div className="p-4">
-      <PageTitle>Users</PageTitle>
+      <PageTitle>Customer Orders</PageTitle>
     </div>
   );
 };
 
-export default Users;
+export default CustomerOrders;

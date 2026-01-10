@@ -1,3 +1,4 @@
+import PageTitle from "../components/shared/PageTitle";
 import {
   useGetProductsQuery,
   useDeleteProductMutation,
@@ -10,8 +11,7 @@ const Products = () => {
 
   const content = (
     <div className="p-4">
-      <h2 className="font-medium text-2xl mb-4">Products</h2>
-
+      <PageTitle>Products</PageTitle>
       <ul>
         {products?.map((p) => (
           <li

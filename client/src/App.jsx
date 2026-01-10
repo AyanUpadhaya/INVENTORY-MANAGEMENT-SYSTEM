@@ -10,6 +10,13 @@ import Inventory from "./pages/Inventory";
 import Users from "./pages/Users";
 import AddProduct from "./pages/AddProduct";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
+import CustomerOrders from "./pages/CustomerOrders";
+import PurchaseOrders from "./pages/PurchaseOrders";
+import Settings from "./pages/Settings";
+import Categories from "./pages/Categories";
+import Suppliers from "./pages/Suppliers";
+import Warehouses from "./pages/Warehouses";
+import Customers from "./pages/Customers";
 
 export default function App() {
   return (
@@ -32,8 +39,15 @@ export default function App() {
               <Route index element={<Dashboard />} />
               <Route path="inventory" element={<Inventory />} />
               <Route path="users" element={<Users />} />
+              <Route path="categories" element={<Categories />} />
+              <Route path="suppliers" element={<Suppliers />} />
+              <Route path="warehouses" element={<Warehouses />} />
+              <Route path="customers" element={<Customers />} />
+              <Route path="customer-orders" element={<CustomerOrders />} />
+              <Route path="purchase-orders" element={<PurchaseOrders />} />
               <Route path="products" element={<Products />} />
               <Route path="add-product" element={<AddProduct />} />
+              <Route path="settings" element={<Settings />} />
             </Route>
           </Route>
           <Route path="*" element={<h2>Not found</h2>} />
