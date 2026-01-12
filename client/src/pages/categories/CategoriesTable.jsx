@@ -3,6 +3,7 @@ import { useDeleteCategoryMutation } from "../../features/categories/categoriesA
 import { formatDate } from "../../lib/dateFormats";
 import { Trash2, Edit2, EyeIcon } from "lucide-react";
 import toast from "react-hot-toast";
+import truncateText from "../../lib/truncateText";
 const CategoriesTable = ({ data }) => {
   const [deleteCategory, { isLoading }] = useDeleteCategoryMutation();
   const navigate = useNavigate()
@@ -36,10 +37,10 @@ const CategoriesTable = ({ data }) => {
         {data.map((item) => (
           <tr className="border border-gray-300" key={item?._id}>
             <td className="px-3 py-2 font-poppins text-sm border border-gray-300">
-              {item?.name}
+              {truncateText(item?.name)}
             </td>
             <td className="px-3 py-2 font-poppins text-sm border border-gray-300">
-              {item?.description}
+              {truncateText(item?.description,35)}
             </td>
             <td className="px-3 py-2 font-poppins text-sm border border-gray-300 text-center">
               {formatDate(item?.createdAt)}
