@@ -44,7 +44,7 @@ const Categories = () => {
           + Add Category
         </Button>
       </div>
-      <div className="mt-4 bg-white p-6 rounded-md">
+      <div className="mt-4 p-6 bg-white rounded-md">
         <div className="mb-4 flex justify-between gap-3">
           <Input
             onChange={(e) => setSearch(e.target.value)}
