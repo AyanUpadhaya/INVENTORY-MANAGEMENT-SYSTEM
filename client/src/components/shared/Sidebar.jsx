@@ -144,19 +144,21 @@ const Sidebar = ({ showSidebar }) => {
   const filteredLinks =
     SidebarLinks.filter((item) => item.roles.includes(role)) ?? [];
 
-  const [isSubmenuOpen, setIsSubmenuOpen] = useState({});
+  const [openSubmenu, setOpenSubmenu] = useState(null);
 
-  const handleDropdown = (menu) => {
-    setIsSubmenuOpen((prev) => ({
-      [menu]: !prev[menu],
-    }));
+  const handleDropdown = (name) => {
+    setOpenSubmenu((prev) => (prev === name ? null : name));
+  };
+
+  const closeSubmenu = () => {
+    setOpenSubmenu(null);
   };
 
   return (
     <div
       className={`${
         showSidebar ? "w-72 px-4" : "w-0"
-      }  bg-gray-900 h-full pb-5  relative duration-300 no-scrollbar overflow-auto `}
+      }  bg-gray-900 h-full pb-5 select-none  relative duration-300 no-scrollbar overflow-auto `}
     >
       {/* logo */}
       <div className="h-12 mb-6 py-3">
@@ -176,6 +178,7 @@ const Sidebar = ({ showSidebar }) => {
           const hasSubmenu = item?.submenu?.length > 0;
           const component = !hasSubmenu ? (
             <Link
+              onClick={closeSubmenu}
               className={`${
                 active ? "bg-blue-500" : ""
               }  p-2 rounded hover:bg-gray-700  flex gap-2 items-center font-medium text-white`}
@@ -203,7 +206,7 @@ const Sidebar = ({ showSidebar }) => {
                   <span>{item.name}</span>
                 </div>
                 {/* cheverons */}
-                {!isSubmenuOpen[item?.name] ? (
+                {openSubmenu !== item.name ? (
                   <ChevronDown className="w-4 h-4"></ChevronDown>
                 ) : (
                   <ChevronUp className="w-4 h-4"></ChevronUp>
@@ -213,8 +216,8 @@ const Sidebar = ({ showSidebar }) => {
               <ul
                 className={`flex flex-col gap-1 duration-300 pl-10`}
                 style={{
-                  maxHeight: isSubmenuOpen[item?.name] ? `320px` : "0",
-                  paddingTop: isSubmenuOpen[item?.name] ? "12px" : "0",
+                  maxHeight: openSubmenu === item.name ? "320px" : "0",
+                  paddingTop: openSubmenu === item.name ? "12px" : "0",
                 }}
               >
                 {item?.submenu.map((submenu, idx) => (
