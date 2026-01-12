@@ -1,4 +1,4 @@
-import Cateogry from "../models/Category.js";
+import Category from "../models/Category.js";
 import ApiError from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -11,7 +11,7 @@ export const createCategory = asyncHandler(async (req, res) => {
     throw new ApiError(400, "name and description is both required");
   }
 
-  const result = await Cateogry.create({ name, description });
+  const result = await Category.create({ name, description });
   res
     .status(201)
     .json(new ApiResponse(201, result, "Category created successfully"));
@@ -22,13 +22,13 @@ export const createCategory = asyncHandler(async (req, res) => {
 
 //   const skip = (parseInt(page) - 1) * parseInt(limit);
 
-//   const categories = await Cateogry.find({})
+//   const categories = await Category.find({})
 //     .limit(parseInt(limit))
 //     .skip(skip)
 //     .select("-__v")
 //     .exec();
 
-//   const count = await Cateogry.countDocuments({});
+//   const count = await Category.countDocuments({});
 
 //   const pagination = {
 //     currentPage: parseInt(page),
@@ -47,20 +47,29 @@ export const createCategory = asyncHandler(async (req, res) => {
 //     );
 // });
 
-export const getAllCategory = asyncHandler(async (req, res) => {
-  const options = {
-    page: parseInt(req.query.page) || 1,
-    limit: parseInt(req.query.limit) || 10,
-    sort: { createdAt: -1 },
-    select: "-__v",
-  };
+// export const getAllCategory = asyncHandler(async (req, res) => {
+//   const options = {
+//     page: parseInt(req.query.page) || 1,
+//     limit: parseInt(req.query.limit) || 10,
+//     sort: { createdAt: -1 },
+//     select: "-__v",
+//   };
 
-  const result = await Cateogry.paginate({}, options); // First arg is query, second is options
+//   const result = await Category.paginate({}, options); // First arg is query, second is options
 
-  res
-    .status(200)
-    .json(new ApiResponse(200, result, "All category fetched successfully"));
-});
+//   res
+//     .status(200)
+//     .json(new ApiResponse(200, result, "All category fetched successfully"));
+// });
+export const getAllCategoryWithoutPagination = asyncHandler(
+  async (req, res) => {
+    const result = await Category.find({}).sort({ createdAt: -1 }).select("-__v"); // First arg is query, second is options
+
+    res
+      .status(200)
+      .json(new ApiResponse(200, result, "All category fetched successfully"));
+  }
+);
 
 export const updateCategory = asyncHandler(async (req, res) => {
   const id = req.params.id;
@@ -75,7 +84,7 @@ export const updateCategory = asyncHandler(async (req, res) => {
   if (!exists) {
     throw new ApiError(404, "Category not found");
   }
-  const category = await Cateogry.findByIdAndUpdate(id, updates, {
+  const category = await Category.findByIdAndUpdate(id, updates, {
     new: true,
   });
   res
@@ -90,7 +99,7 @@ export const deleteCategory = asyncHandler(async (req, res) => {
   if (!exists) {
     throw new ApiError(404, "Category not found");
   }
-  await Cateogry.findByIdAndDelete(id);
+  await Category.findByIdAndDelete(id);
   res
     .status(200)
     .json(new ApiResponse(200, {}, "Category deleted successfully"));

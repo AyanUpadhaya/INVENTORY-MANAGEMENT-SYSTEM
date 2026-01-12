@@ -52,7 +52,7 @@ const SidebarLinks = [
   {
     id: 3,
     name: "Orders",
-    url: "orders",
+    url: "/dashboard/orders",
     pathMap: ["/dashboard/customer-orders", "/dashboard/purchase-orders"],
     submenu: [
       {
@@ -81,7 +81,12 @@ const SidebarLinks = [
     name: "Categories",
     url: "/dashboard/categories",
     submenu: [],
-    pathMap: ["/dashboard/categories"],
+    pathMap: [
+      "/dashboard/categories",
+      "/dashboard/add-category",
+      "/dashboard/edit-category/:id",
+      "/dashboard/edit-category",
+    ],
     icon: Tags,
     roles: ["admin", "staff", "manager"],
   },
@@ -139,10 +144,7 @@ const Sidebar = ({ showSidebar }) => {
   const filteredLinks =
     SidebarLinks.filter((item) => item.roles.includes(role)) ?? [];
 
-  const [isSubmenuOpen, setIsSubmenuOpen] = useState({
-    Products: false,
-    Orders: false,
-  });
+  const [isSubmenuOpen, setIsSubmenuOpen] = useState({});
 
   const handleDropdown = (menu) => {
     setIsSubmenuOpen((prev) => ({
@@ -186,12 +188,11 @@ const Sidebar = ({ showSidebar }) => {
               <span>{item.name}</span>
             </Link>
           ) : (
-            <div className="overflow-hidden">
+            <div className="overflow-hidden" key={item.id}>
               <div
                 className={`${
                   active ? "bg-blue-500" : ""
                 }  p-2 rounded hover:bg-gray-700 flex items-center justify-between font-medium text-white cursor-pointer`}
-                key={item.id}
                 onClick={() => handleDropdown(item?.name)}
               >
                 {/* name and icon */}

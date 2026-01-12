@@ -5,7 +5,7 @@ import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 import { useNavigate } from "react-router-dom";
 import PageTitle from "../components/shared/PageTitle";
-
+import { Loader2, Loader2Icon } from "lucide-react";
 const AddProduct = () => {
   const [addProduct, { isLoading }] = useAddProductMutation();
   const [form, setForm] = useState({ name: "", price: "" });
@@ -16,8 +16,8 @@ const AddProduct = () => {
       await addProduct(form).unwrap();
       toast.success("Product Added!");
       navigate("/dashboard/products");
-    } catch {
-      toast.error("Failed");
+    } catch (error) {
+      toast.error(error?.data?.message ?? "Failed to create product");
     }
   };
   const content = (
@@ -35,6 +35,7 @@ const AddProduct = () => {
           onChange={(e) => setForm({ ...form, price: e.target.value })}
         />
         <Button disabled={isLoading} onClick={handleAdd}>
+          {isLoading && <Loader2Icon className="h-4 w-4 animate-spin" />}
           {isLoading ? "Adding.." : "Add Product"}
         </Button>
       </div>

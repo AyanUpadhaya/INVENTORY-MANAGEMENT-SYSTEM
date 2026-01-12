@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import User from "./src/models/User.js";
 import bcrypt from "bcryptjs";
+import Category from "./src/models/Category.js";
 const connection_string = `mongodb://localhost:27017/inventory_management_db`;
 mongoose.connect(connection_string);
 
@@ -25,4 +26,10 @@ async function seedUser() {
   }
 }
 
-seedUser()
+async function seedCategories(){
+  const res = await Category.insertMany([{name:"Test",description:"Testing description"}])
+  console.log("Categories Added Successfully ✅");
+}
+
+// seedUser()
+seedCategories()
