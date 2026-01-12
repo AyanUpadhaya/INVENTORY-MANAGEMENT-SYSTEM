@@ -64,6 +64,19 @@ export const categoriesApi = appApi
           }
         },
       }),
+      getCategoryById: builder.query({
+        query: (id) => `/category/${id}`,
+        providesTags: (result, error, id) => [{ type: "Category", id: id }],
+        transformResponse: (res) => res.data,
+      }),
+      updateCategoryById: builder.mutation({
+        query: ({ id, payload }) => ({
+          url: `/category/${id}`,
+          method: "PUT",
+          body: payload,
+        }),
+        invalidatesTags: ["Category"],
+      }),
     }),
   });
 
@@ -71,4 +84,6 @@ export const {
   useGetCategoriesQuery,
   useAddCategoryMutation,
   useDeleteCategoryMutation,
+  useGetCategoryByIdQuery,
+  useUpdateCategoryByIdMutation
 } = categoriesApi;

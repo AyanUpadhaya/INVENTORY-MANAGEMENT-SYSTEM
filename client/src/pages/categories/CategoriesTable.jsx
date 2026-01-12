@@ -48,7 +48,7 @@ const CategoriesTable = ({ data }) => {
               <button onClick={() => handleDelete(item)} disabled={isLoading}>
                 <Trash2 className="text-red-500"></Trash2>
               </button>
-              <button onClick={()=>navigate(`/dashboard/edit-category/:${item?._id}`)}>
+              <button onClick={()=>navigate(`/dashboard/edit-category/${item?._id}`)}>
                 <Edit2 className="text-blue-500"></Edit2>
               </button>
               <button>

@@ -14,7 +14,8 @@ const AddCategory = () => {
   const navigate = useNavigate();
   const getLength = (text) => text.length;
 
-  const handleAdd = async () => {
+  const handleAdd = async (ev) => {
+    ev.preventDefault();
     try {
       const { name, description } = form;
       if (!name || !description)
@@ -23,7 +24,9 @@ const AddCategory = () => {
       if (getLength(name) < 2)
         return toast.error("Name should have at least more than 2 characters");
       if (getLength(description) < 10)
-        return toast.error("Description should have at least more than 10 characters");
+        return toast.error(
+          "Description should have at least more than 10 characters"
+        );
       await addCategory(form).unwrap();
       toast.success("Category Added!");
       navigate("/dashboard/categories");
@@ -41,24 +44,24 @@ const AddCategory = () => {
           </Button>
           <PageTitle>Add Category</PageTitle>
         </div>
-        <Input
-          placeholder="Category name"
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-        />
-        {/* <Input
-          type="text"
-          placeholder="Category Description"
-          onChange={(e) => setForm({ ...form, description: e.target.value })}
-        /> */}
-        <Textarea
-          placeholder="Category Description"
-          onChange={(e) => setForm({ ...form, description: e.target.value })}
-        />
+        <form className="space-y-4" onSubmit={handleAdd}>
+          <Input
+            placeholder="Category name"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+          />
 
-        <Button disabled={isLoading} onClick={handleAdd}>
-          {isLoading && <Loader2Icon className="h-4 w-4 animate-spin" />}
-          {isLoading ? "Adding.." : "Add Category"}
-        </Button>
+          <Textarea
+            placeholder="Category Description"
+            value={form.description}
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
+          />
+
+          <Button type="submit" disabled={isLoading}>
+            {isLoading && <Loader2Icon className="h-4 w-4 animate-spin" />}
+            {isLoading ? "Adding.." : "Add Category"}
+          </Button>
+        </form>
       </div>
     </div>
   );
