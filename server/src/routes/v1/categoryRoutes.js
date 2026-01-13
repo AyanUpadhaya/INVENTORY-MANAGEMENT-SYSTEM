@@ -5,8 +5,10 @@ import {
   updateCategory,
   deleteCategory,
   singleCategory,
-  getAllCategoryWithoutPagination
+  getAllCategoryWithoutPagination,
+  bulkUploadCategories
 } from "../../controllers/categoryController.js";
+import { uploadCsv } from "../../middleware/uploadCsv.js";
 
 const router = express.Router();
 
@@ -16,5 +18,6 @@ router.get("/", getAllCategoryWithoutPagination);
 router.put("/:id", updateCategory);
 router.delete("/:id", deleteCategory);
 router.get("/:id", singleCategory);
+router.post("/upload",uploadCsv.single("file"), bulkUploadCategories);
 
 export default router;

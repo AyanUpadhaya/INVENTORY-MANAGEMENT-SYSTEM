@@ -2,6 +2,7 @@ import Category from "../models/Category.js";
 import ApiError from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { parseCsvBuffer } from "../utils/parseCsvBuffer.js";
 
 //create category
 export const createCategory = asyncHandler(async (req, res) => {
@@ -63,7 +64,9 @@ export const createCategory = asyncHandler(async (req, res) => {
 // });
 export const getAllCategoryWithoutPagination = asyncHandler(
   async (req, res) => {
-    const result = await Category.find({}).sort({ createdAt: -1 }).select("-__v"); // First arg is query, second is options
+    const result = await Category.find({})
+      .sort({ createdAt: -1 })
+      .select("-__v"); // First arg is query, second is options
 
     res
       .status(200)
@@ -116,3 +119,14 @@ export const singleCategory = asyncHandler(async (req, res, next) => {
     .status(200)
     .json(new ApiResponse(200, category, "Category fetched successfully"));
 });
+
+export const bulkUploadCategories = asyncHandler(async (req, res, next) => {
+  if (!req.file) {
+    throw new ApiError(400, "CSV file is required");
+  }
+  const rows = await parseCsvBuffer(req.file.buffer);
+  await Category.insertMany(rows);
+
+  res.status(200).json(new ApiResponse(200, rows, "Uploaded succssfully"));
+});
+//TODO: prevent duplicate categories insert
