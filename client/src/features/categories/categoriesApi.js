@@ -77,6 +77,14 @@ export const categoriesApi = appApi
         }),
         invalidatesTags: ["Category"],
       }),
+      bulkUpload: builder.mutation({
+        query: (formData) => ({
+          url: `/category/upload`,
+          method: "POST",
+          body: formData,
+        }),
+        invalidatesTags: ["Category"],
+      }),
     }),
   });
 
@@ -85,5 +93,6 @@ export const {
   useAddCategoryMutation,
   useDeleteCategoryMutation,
   useGetCategoryByIdQuery,
-  useUpdateCategoryByIdMutation
+  useUpdateCategoryByIdMutation,
+  useBulkUploadMutation
 } = categoriesApi;

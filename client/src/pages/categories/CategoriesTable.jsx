@@ -7,7 +7,7 @@ import truncateText from "../../lib/truncateText";
 import ReactPaginate from "react-paginate";
 import { useState } from "react";
 
-const CategoriesTable = ({ data }) => {
+const CategoriesTable = ({ data, handelOpenModal }) => {
   const [deleteCategory, { isLoading }] = useDeleteCategoryMutation();
   const navigate = useNavigate();
   const handleDelete = async (item) => {
@@ -72,7 +72,7 @@ const CategoriesTable = ({ data }) => {
                 >
                   <Edit2 className="text-blue-500"></Edit2>
                 </button>
-                <button>
+                <button onClick={()=>handelOpenModal(item)}>
                   <EyeIcon className="text-green-500"></EyeIcon>
                 </button>
               </td>
