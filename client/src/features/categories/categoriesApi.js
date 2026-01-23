@@ -6,26 +6,7 @@ export const categoriesApi = appApi
   })
   .injectEndpoints({
     endpoints: (builder) => ({
-      // getCategories: builder.query({
-      //   query: ({ page, limit }) => `/category?page=${page}&limit=${limit}`,
-      //   providesTags: ["Category"],
-      //   transformResponse: (res) => {
-      //     return {
-      //       categories: res.data.docs,
-      //       pagination: {
-      //         totalDocs: res?.data?.totalDocs,
-      //         limit: res?.data?.limit,
-      //         totalPages: res?.data?.totalPages,
-      //         page: res?.data?.page,
-      //         pagingCounter: res?.data?.pagingCounter,
-      //         hasPrevPage: res?.data?.hasPrevPage,
-      //         hasNextPage: res?.data?.hasNextPage,
-      //         prevPage: res?.data?.prevPage,
-      //         nextPage: res?.data?.nextPage,
-      //       },
-      //     };
-      //   },
-      // }),
+      
       getCategories: builder.query({
         query: () => `/category`,
         providesTags: ["Category"],

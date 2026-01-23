@@ -42,6 +42,9 @@ const CategoriesTable = ({ data, handelOpenModal }) => {
               Description
             </th>
             <th className="font-medium font-poppins text-sm text-white border border-gray-300">
+              Products
+            </th>
+            <th className="font-medium font-poppins text-sm text-white border border-gray-300">
               Created
             </th>
             <th className="font-medium font-poppins text-sm text-white border border-gray-300">
@@ -57,6 +60,9 @@ const CategoriesTable = ({ data, handelOpenModal }) => {
               </td>
               <td className="px-3 py-2 font-poppins text-sm border border-gray-300">
                 {truncateText(item?.description, 35)}
+              </td>
+              <td className="px-3 py-2 text-center font-poppins text-sm border border-gray-300">
+                {item?.productCount}
               </td>
               <td className="px-3 py-2 font-poppins text-sm border border-gray-300 text-center">
                 {formatDate(item?.createdAt)}

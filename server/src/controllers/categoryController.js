@@ -62,16 +62,50 @@ export const createCategory = asyncHandler(async (req, res) => {
 //     .status(200)
 //     .json(new ApiResponse(200, result, "All category fetched successfully"));
 // });
+
+// export const getAllCategoryWithoutPagination = asyncHandler(
+//   async (req, res) => {
+//     const result = await Category.find({})
+//       .sort({ createdAt: -1 })
+//       .select("-__v"); // First arg is query, second is options
+
+//   res
+//     .status(200)
+//     .json(new ApiResponse(200, result, "All category fetched successfully"));
+// }
+// );
 export const getAllCategoryWithoutPagination = asyncHandler(
   async (req, res) => {
-    const result = await Category.find({})
-      .sort({ createdAt: -1 })
-      .select("-__v"); // First arg is query, second is options
+    const categories = await Category.aggregate([
+      {
+        $lookup: {
+          from: "products",
+          localField: "_id",
+          foreignField: "category",
+          as: "products",
+        },
+      },
+      {
+        // shape response
+        $project: {
+          name: 1,
+          description: 1,
+          productCount: { $size: "$products" },
+          createdAt: 1,
+          updatedAt: 1,
+        },
+      },
+      {
+        $sort: { createdAt: -1 },
+      },
+    ]);
 
     res
       .status(200)
-      .json(new ApiResponse(200, result, "All category fetched successfully"));
-  }
+      .json(
+        new ApiResponse(200, categories, "All category fetched successfully"),
+      );
+  },
 );
 
 export const updateCategory = asyncHandler(async (req, res) => {

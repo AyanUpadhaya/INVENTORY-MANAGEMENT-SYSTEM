@@ -144,6 +144,9 @@ const Categories = () => {
           <p className="text-sm text-gray-600">
             Created at : {formatDate(selectedCategory?.createdAt)}
           </p>
+          <p className="text-sm text-gray-600">
+            Products Count : {selectedCategory?.productCount}
+          </p>
         </ModalBody>
 
         <ModalFooter onClose={() => setOpen(false)}></ModalFooter>
