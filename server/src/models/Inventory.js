@@ -60,12 +60,7 @@ const inventorySchema = new mongoose.Schema(
       default: 0,
       min: [0, "Quantity available cannot be negative"],
     },
-    // Minimum and maximum stock levels for this warehouse
-    // min_stock_level: {
-    //   type: Number,
-    //   default: 0,
-    //   min: [0, "Minimum stock level cannot be negative"],
-    // },
+    // maximum stock levels for this warehouse
     max_stock_level: {
       type: Number,
       default: null,
@@ -126,9 +121,9 @@ inventorySchema.index({ is_low_stock: 1 });
 inventorySchema.index({ is_out_of_stock: 1 });
 inventorySchema.index({ status: 1 });
 
-// Pre-save: Auto-generate warehouse code
+// Pre-save: Auto-generate  code
 inventorySchema.pre("save", async function (next) {
-  if (!this.warehouse_code) {
+  if (!this.inventory_code) {
     const count = await mongoose.model("Inventory").countDocuments();
     const year = new Date().getFullYear();
     this.inventory_code = `INV-${year}-${String(count + 1).padStart(4, "0")}`;
